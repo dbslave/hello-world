@@ -1,0 +1,22 @@
+select  
+      m.SenderId,
+      m.RecipientId,
+      m.MessageDomainId as MessageTypeId,
+      mh.MessageStatusDomainId as MessageStatusId,
+      mh.FileName as FileName,
+      m.MessageId,
+      mh.IsHidden as IsHidden,
+      mhd.IdentificationNumber as IdentificationNumber,
+      mhd.InterchangeControlNumber as InterchangeControlNumber,
+      mhd.ActualEDIGSNumber as ActualGSNumber,
+      mhd.ActualEDISTNumber as ActualSTNumber,
+      mhd.PONumber as PONumber,
+      m.Sender_PartnerCredentialId as 'PartnerCredentialId',
+      m.Recipient_PartnerCredentialId as 'PartnerCredentialId1'
+from   [Message] m
+      inner join MessageHistory mh
+            on mh.MessageId = m.MessageId
+      inner join MessageHistoryDetails mhd
+            on mhd.MessageHistoryId = mh.MessageHistoryId
+      inner join MessageStatusDomain msd
+        on msd.MessageStatusDomainId = mh.MessageStatusDomainId
